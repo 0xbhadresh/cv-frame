@@ -3,12 +3,12 @@
 import dynamic from "next/dynamic";
 import "./globals.css";
 
-const Demo = dynamic(() => import("../components/Demo"), {
+const LoginPage = dynamic(() => import("../components/LoginPage"), {
   ssr: false,
 });
 
 export default function App(
   { title }: { title?: string } = { title: "Frames v2 Demo" }
 ) {
-  return <Demo title={title} />;
+  return <LoginPage title={title} />;
 }

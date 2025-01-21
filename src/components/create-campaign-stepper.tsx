@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "../components/ui/button";
-import { Card } from "../components/ui/card";
+import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 import ModeSelection from "./mode-selection";
 import CampaignDetails from "./campaign-details";
 import Requirements, { Requirement } from "./requirements";
@@ -16,7 +16,7 @@ const steps = [
   "Perks",
 ];
 
-export default function NFTCampaignStepper() {
+export default function CreateCampaign() {
   const [currentStep, setCurrentStep] = useState(0);
   const [campaignMode, setCampaignMode] = useState<"token" | "nft" | null>(
     null
@@ -55,23 +55,24 @@ export default function NFTCampaignStepper() {
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+      console.log(`Moved to step: ${currentStep + 1}`);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+      console.log(`Moved back to step: ${currentStep - 1}`);
     }
   };
 
   const handleCreateCampaign = () => {
-    console.log("Campaign created:", {
+    console.log("Create Campaign with details:", {
       campaignMode,
       campaignDetails,
       requirements,
       perks,
     });
-    // Here you would typically send this data to your backend
   };
 
   return (
@@ -112,9 +113,15 @@ export default function NFTCampaignStepper() {
       <Card className="p-6 shadow-lg bg-white">
         {currentStep === 0 && (
           <ModeSelection
-            onSelect={setCampaignMode}
+            onSelect={(mode) => {
+              setCampaignMode(mode);
+              console.log(`Selected campaign mode: ${mode}`);
+            }}
             selectedMode={selectedMode}
-            setSelectedMode={setSelectedMode}
+            setSelectedMode={(mode) => {
+              setSelectedMode(mode);
+              console.log(`Selected mode: ${mode}`);
+            }}
           />
         )}
         {currentStep === 1 && campaignMode === "token" && (
@@ -122,7 +129,10 @@ export default function NFTCampaignStepper() {
         )}
         {currentStep === 1 && campaignMode === "nft" && (
           <CampaignDetails
-            onUpdate={(details) => setCampaignDetails(details)}
+            onUpdate={(details) => {
+              setCampaignDetails(details);
+              console.log("Updated campaign details:", details);
+            }}
           />
         )}
         {currentStep === 2 && (
