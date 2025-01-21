@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "../components/ui/button";
-import { Card } from "../components/ui/card";
+import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 import ModeSelection from "./mode-selection";
 import CampaignDetails from "./campaign-details";
 import Requirements from "./requirements";
@@ -16,7 +16,7 @@ const steps = [
   "Perks",
 ];
 
-export default function NFTCampaignStepper() {
+export default function CreateCampaign() {
   const [currentStep, setCurrentStep] = useState(0);
   const [campaignMode, setCampaignMode] = useState<"token" | "nft" | null>(
     null
@@ -65,13 +65,7 @@ export default function NFTCampaignStepper() {
   };
 
   const handleCreateCampaign = () => {
-    console.log("Campaign created:", {
-      campaignMode,
-      campaignDetails,
-      requirements,
-      perks,
-    });
-    // Here you would typically send this data to your backend
+    console.log("Create Campaign");
   };
 
   return (

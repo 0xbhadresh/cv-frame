@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogDescription,
 } from "../components/ui/dialog";
 import { PlusCircle } from "lucide-react";
 
@@ -43,6 +44,9 @@ export default function Requirements({ onUpdate }: RequirementsProps) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Add Requirement</DialogTitle>
+            <DialogDescription>
+              Please fill out the form below to add a new requirement.
+            </DialogDescription>
           </DialogHeader>
           {/* Add your requirement form here */}
           <Button onClick={() => handleAddRequirement({ type: "example" })}>
