@@ -5,9 +5,9 @@ import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import ModeSelection from "./mode-selection";
 import CampaignDetails from "./campaign-details";
-import Requirements from "./requirements";
+import Requirements, { Requirement } from "./requirements";
 import Perks from "./perks";
-import { Requirement } from "./requirements";
+import TokenCampaignDetails from "./token-campaign-details";
 
 const steps = [
   "Mode of Campaigns",
@@ -49,8 +49,8 @@ export default function NFTCampaignStepper() {
     soulbound: false,
     openEdition: false,
   });
-  const [requirements, setRequirements] = useState<Requirement[]>([]);
-  const [perks, setPerks] = useState<string[]>([]);
+  const [requirements, setRequirements] = useState([]);
+  const [perks, setPerks] = useState([]);
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -117,6 +117,9 @@ export default function NFTCampaignStepper() {
             setSelectedMode={setSelectedMode}
           />
         )}
+        {currentStep === 1 && campaignMode === "token" && (
+          <TokenCampaignDetails onUpdate={setCampaignDetails} />
+        )}
         {currentStep === 1 && campaignMode === "nft" && (
           <CampaignDetails
             onUpdate={(details) => setCampaignDetails(details)}
@@ -125,11 +128,11 @@ export default function NFTCampaignStepper() {
         {currentStep === 2 && (
           <Requirements
             onUpdate={(updatedRequirements: Requirement[]) =>
-              setRequirements(updatedRequirements)
+              setRequirements(updatedRequirements as any)
             }
           />
         )}
-        {currentStep === 3 && <Perks onUpdate={setPerks} />}
+        {currentStep === 3 && <Perks onUpdate={(perks: string[]) => setPerks(perks as any)} />}
       </Card>
 
       <div className="mt-6 flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
