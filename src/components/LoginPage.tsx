@@ -36,7 +36,7 @@ export default function LoginPage({
   const [signingOut, setSigningOut] = useState(false);
   const [signInResult, setSignInResult] = useState<SignInCore.SignInResult>();
   const [signInFailure, setSignInFailure] = useState<string>();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [added, setAdded] = useState(false);
   const [lastEvent, setLastEvent] = useState("");

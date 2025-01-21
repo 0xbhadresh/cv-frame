@@ -55,17 +55,24 @@ export default function CreateCampaign() {
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+      console.log(`Moved to step: ${currentStep + 1}`);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+      console.log(`Moved back to step: ${currentStep - 1}`);
     }
   };
 
   const handleCreateCampaign = () => {
-    console.log("Create Campaign");
+    console.log("Create Campaign with details:", {
+      campaignMode,
+      campaignDetails,
+      requirements,
+      perks,
+    });
   };
 
   return (
@@ -106,24 +113,41 @@ export default function CreateCampaign() {
       <Card className="p-6 shadow-lg bg-white">
         {currentStep === 0 && (
           <ModeSelection
-            onSelect={setCampaignMode}
+            onSelect={(mode) => {
+              setCampaignMode(mode);
+              console.log(`Selected campaign mode: ${mode}`);
+            }}
             selectedMode={selectedMode}
-            setSelectedMode={setSelectedMode}
+            setSelectedMode={(mode) => {
+              setSelectedMode(mode);
+              console.log(`Selected mode: ${mode}`);
+            }}
           />
         )}
         {currentStep === 1 && campaignMode === "nft" && (
           <CampaignDetails
-            onUpdate={(details) => setCampaignDetails(details)}
+            onUpdate={(details) => {
+              setCampaignDetails(details);
+              console.log("Updated campaign details:", details);
+            }}
           />
         )}
         {currentStep === 2 && (
           <Requirements
-            onUpdate={(updatedRequirements: Requirement[]) =>
-              setRequirements(updatedRequirements)
-            }
+            onUpdate={(updatedRequirements: Requirement[]) => {
+              setRequirements(updatedRequirements);
+              console.log("Updated requirements:", updatedRequirements);
+            }}
           />
         )}
-        {currentStep === 3 && <Perks onUpdate={setPerks} />}
+        {currentStep === 3 && (
+          <Perks
+            onUpdate={(updatedPerks) => {
+              setPerks(updatedPerks);
+              console.log("Updated perks:", updatedPerks);
+            }}
+          />
+        )}
       </Card>
 
       <div className="mt-6 flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0">
