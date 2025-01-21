@@ -8,6 +8,27 @@ interface LoginPageProps {
   title?: string;
 }
 
+interface User {
+  fid: number;
+  username: string;
+  displayName: string;
+  pfpUrl: string;
+  location: {
+    placeId: string;
+    description: string;
+  };
+}
+
+interface Client {
+  clientFid: number;
+  added: boolean;
+}
+
+interface Context {
+  user: User;
+  client: Client;
+}
+
 export default function LoginPage({
   title = "Frames v2 Demo",
 }: LoginPageProps) {
@@ -19,6 +40,8 @@ export default function LoginPage({
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [added, setAdded] = useState(false);
   const [lastEvent, setLastEvent] = useState("");
+  const [context, setContext] = useState<Context | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getNonce = useCallback(async () => {
     const nonce = await getCsrfToken();
@@ -49,6 +72,28 @@ export default function LoginPage({
         setSignInFailure("Authentication failed");
         return;
       }
+
+      // Simulate a login process
+      const userContext: Context = {
+        user: {
+          fid: 884823,
+          username: "sarvagna",
+          displayName: "Sarvagna Kadiya",
+          pfpUrl:
+            "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/f803614e-db63-4485-de12-5bf285bb7700/rectcrop3",
+          location: {
+            placeId: "ChIJSdRbuoqEXjkRFmVPYRHdzk8",
+            description: "Ahmedabad, Gujarat, India",
+          },
+        },
+        client: {
+          clientFid: 9152,
+          added: false,
+        },
+      };
+
+      setContext(userContext);
+      setIsLoggedIn(true);
     } catch (e) {
       console.error("Sign in error:", e);
       if (e instanceof SignInCore.RejectedByUser) {
@@ -158,6 +203,18 @@ export default function LoginPage({
         {signingOut ? "Signing out..." : "Sign out"}
       </Button>
       <CreateCampaign />
+      {isLoggedIn && (
+        <div className="user-info">
+          <h2>Welcome, {context?.user.displayName}!</h2>
+          <img
+            src={context?.user.pfpUrl}
+            alt="Profile"
+            className="profile-pic"
+          />
+          <p>Username: {context?.user.username}</p>
+          <p>Location: {context?.user.location.description}</p>
+        </div>
+      )}
     </div>
   );
 }
